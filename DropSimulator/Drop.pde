@@ -18,7 +18,7 @@ public class Drop
   float getZ(float x, float y, float time)
   {
     float t = time - this.time;
-    float value = sqrt(pow(x - positionX, 2) + pow(y - positionY, 2)) + t;
+    float value = sqrt(pow(x - positionX, 2) + pow(y - positionY, 2)) - t;
     float wave = int(value / period);
     wave = abs(wave - (t / period) * 2);
     
