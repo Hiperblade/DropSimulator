@@ -1,7 +1,7 @@
 Drop Simulator
 ==========
 
-Press <SpaceBar> to change surface
+Press SpaceBar key to change surface
 
 Some screenshot:
 ![Drop 1](/readme/Drop_1.png "Drop 1")
