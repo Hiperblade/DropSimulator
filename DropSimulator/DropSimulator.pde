@@ -7,11 +7,12 @@ void setup()
 }
 
 int dimension = 300;
-int step = 5;
+int step = 10;
 
 float t = 0;
 ArrayList<Drop> drops = new ArrayList<Drop>();
 
+int drawType = 0;
 int lastDropTime = millis();
 
 void draw()
@@ -38,10 +39,53 @@ void draw()
   {
     for(int y = -dimension; y < dimension; y += step)
     {
-      point(x, y, getZ(x, y, t));
+      drawPoint(x, y, t);
     }
   }
   t++;
+}
+
+void keyPressed() {
+  if(keyCode == 32) // barra spaziatrice
+  {
+    drawType = (drawType + 1) % 4;
+  }
+}
+
+void drawPoint(float x, float y, float t)
+{
+  switch(drawType)
+  {
+    case 0:
+      point(x, y, getZ(x, y, t));
+      break;
+    case 1:
+      if((x < dimension - step) && (y < dimension - step))
+      {
+        line(x, y, getZ(x, y, t), x + step, y + step, getZ(x + step, y + step, t));
+      }
+      break;
+    case 2:
+      if(x < dimension - step)
+      {
+        line(x, y, getZ(x, y, t), x + step, y, getZ(x + step, y, t));
+      }
+      if(y < dimension - step)
+      {
+        line(x, y, getZ(x, y, t), x, y + step, getZ(x, y + step, t));
+      }
+      break;
+    case 3:
+      if((x < dimension - step) && (y < dimension - step))
+      {
+        line(x, y, getZ(x, y, t), x + step, y + step, getZ(x + step, y + step, t));
+      }
+      if((x < dimension - step) && (y > - dimension))
+      {
+        line(x, y, getZ(x, y, t), x + step, y - step, getZ(x + step, y - step, t));
+      }
+      break;
+  }
 }
 
 float getZ(float x, float y, float time)
