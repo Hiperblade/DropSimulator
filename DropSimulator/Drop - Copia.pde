@@ -8,21 +8,16 @@ public class Drop
   int positionY = 0;
   float time = 0;
   
-  Drop(int positionX, int positionY, float creationTime)
+  Drop(int positionX, int positionY, float time)
   {
     this.positionX = positionX;
     this.positionY = positionY;
-    this.time = creationTime;
+    this.time = time;
   }
  
-  float getZ(float x, float y, float currentTime)
+  float getZ(float x, float y, float time)
   {
-    float t = currentTime - this.time;
-    if(t > maxTime)
-    {
-        return 0;
-    }
-    
+    float t = time - this.time;
     float value = sqrt(pow(x - positionX, 2) + pow(y - positionY, 2)) - t;
     float wave = int(value / period);
     wave = abs(wave - (t / period) * 2);
@@ -31,7 +26,8 @@ public class Drop
     float temporalAttenuation = t / maxTime;
     float logaritmicModifier = 1 + 10 * temporalAttenuation; // da 1 a 11
     float waveAttenuation = log(wave + 1) / log(logaritmicModifier);
-    if(waveAttenuation > 1)
+    
+    if((t > maxTime) || (waveAttenuation > 1))
     {
       return 0;
     }  
@@ -44,8 +40,8 @@ public class Drop
     return 0;
   }
   
-  boolean isDead(float currentTime)
+  boolean isDead(float t)
   {
-    return currentTime > (time + maxTime);
+    return t > (time + maxTime);
   }
 }
